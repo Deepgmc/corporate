@@ -1,16 +1,15 @@
 <template>
-  <div>
-    <img alt="Vue logo" src="../assets/logo.png">
-    <v-btn color="primary">Primary</v-btn>
-  </div>
+  <hello-world />
 </template>
 
 <script>
+  import HelloWorld from '../components/HelloWorld'
 
-export default {
-  name: 'Home',
-  components: {
-    
+  export default {
+    name: 'Home',
+
+    components: {
+      HelloWorld,
+    },
   }
-}
 </script>
