@@ -1,55 +1,56 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view/>
-    </v-main>
+  <v-app id="app">
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12" class="header_cnt">CORPORATE MANAGEMENT</v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="3">
+          <navigation-panel />
+        </v-col>
+        <v-col cols="9" v-if="isAuthenticated">
+          <router-view />
+        </v-col>
+        <v-col v-else cols="9">
+          <login-page />
+        </v-col>
+      </v-row>
+    </v-container>
   </v-app>
 </template>
-
 <script>
-
+import NavigationPanel from "@/components/NavigationPanel";
+import LoginPage from "@/components/LoginPage";
 export default {
-  name: 'App',
 
   data: () => ({
-    //
+    loading: true
   }),
-};
+
+  mounted() {
+    this.$store.dispatch('loadAuthenticate')
+  },
+
+  computed: {
+
+    isAuthenticated() {
+      console.log('Is authenticated call');
+      return !!this.$store.getters.isAuthenticated
+    },
+  },
+
+  components: {
+    NavigationPanel,
+    LoginPage,
+  },
+}
 </script>
+
+
+<style lang="scss">
+#app {
+  .header_cnt {
+    border-bottom: 1px solid grey;
+  }
+}
+</style>
