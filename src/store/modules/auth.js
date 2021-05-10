@@ -5,18 +5,23 @@ export default {
 
         async loadAuthenticate({dispatch, commit}){
             const user = firebase.auth().currentUser
-            console.log('Loaded user: ', user)
             if(user && user.uid){
                 commit('SET_USER', {
                     uid  : user.uid,
                     email: user.email
                 })
+            } else {
+                dispatch('logout')
             }
-            return user ? user.uid : null
         },
 
         async login(email, password){
             await firebase.auth().signInWithEmailAndPassword(email, password)
+        },
+
+        async logout({commit}){
+            await firebase.auth().signOut()
+            await commit('SET_USER', null)
         },
 
         async register({dispatch, commit}, {email, password, companyName, companyInn}){

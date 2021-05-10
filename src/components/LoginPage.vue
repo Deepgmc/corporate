@@ -70,6 +70,7 @@ export default {
                 companyName: this.companyName,
                 companyInn : this.companyInn
             })
+            await this.$router.push('/')
         }
     }
 }

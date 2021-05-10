@@ -2,7 +2,7 @@
   <v-app id="app">
     <v-container fluid>
       <v-row>
-        <v-col cols="12" class="header_cnt">CORPORATE MANAGEMENT</v-col>
+        <v-btn class="mr-4" @click="handleLogoutSubmit"> Выйти </v-btn>
       </v-row>
       <v-row>
         <v-col cols="3">
@@ -22,20 +22,18 @@
 import NavigationPanel from "@/components/NavigationPanel";
 import LoginPage from "@/components/LoginPage";
 export default {
-
   data: () => ({
-    loading: true
+    loading: true,
   }),
 
   mounted() {
-    this.$store.dispatch('loadAuthenticate')
+    this.$store.dispatch("loadAuthenticate");
   },
 
   computed: {
-
     isAuthenticated() {
-      console.log('Is authenticated call');
-      return !!this.$store.getters.isAuthenticated
+      console.log("Is authenticated call");
+      return !!this.$store.getters.isAuthenticated;
     },
   },
 
@@ -43,7 +41,13 @@ export default {
     NavigationPanel,
     LoginPage,
   },
-}
+
+  methods: {
+    async handleLogoutSubmit() {
+      this.$store.dispatch('logout')
+    }
+  },
+};
 </script>
 
 
