@@ -25,15 +25,16 @@ export default {
         },
 
         async register({dispatch, commit}, {email, password, companyName, companyInn}){
-            await firebase.auth().createUserWithEmailAndPassword(email, password)
+            const result = await firebase.auth().createUserWithEmailAndPassword(email, password)
             const uid = await dispatch('getUid')
-            console.log('Logined UID:', uid)
+            console.log('REGISTER:', result, uid)
             commit('SET_USER', {
                 uid  : uid,
                 email: email,
                 companyName,
                 companyInn
             })
+            
             // const newCompany = await firebase.database().ref(`/company`).push({companyName, companyInn})
             // console.log('after push company');
             // const company = {...newCompany, id}
