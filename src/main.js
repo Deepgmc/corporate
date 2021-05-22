@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 
 // инициализируем firebase
 //https://corporate-bfde8-default-rtdb.europe-west1.firebasedatabase.app/
-const firebaseConfig = {
+const firebaseConfigOld = {
   apiKey           : "AIzaSyALYv_OzkyuDPyu_aJF-AsbBwa1pALo5DY",
   // authDomain       : "corporate-bfde8.firebaseapp.com",
   // projectId        : "corporate-bfde8",
@@ -28,6 +28,16 @@ const firebaseConfig = {
   appId            : "1:146256970670:web:3ad4fd1bf3e800a2e0fe3f",
   measurementId    : "G-LB78Y3JLL5"
 }
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD4gd3ukukLS3056_yvvtFVTtNVIyERgZ0",
+  authDomain: "corp-9b478.firebaseapp.com",
+  projectId: "corp-9b478",
+  storageBucket: "corp-9b478.appspot.com",
+  messagingSenderId: "835916864512",
+  appId: "1:835916864512:web:d502a25d114c326ba74ce5"
+}
+
 firebase.initializeApp(firebaseConfig)
 
 let corporateApp = null

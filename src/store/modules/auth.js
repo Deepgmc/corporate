@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import {SET_USER} from '../actions.js'
 
 export default {
     actions: {
@@ -6,7 +7,7 @@ export default {
         async loadAuthenticate({dispatch, commit}){
             const user = firebase.auth().currentUser
             if(user && user.uid){
-                commit('SET_USER', {
+                commit(SET_USER, {
                     uid  : user.uid,
                     email: user.email
                 })
@@ -15,20 +16,31 @@ export default {
             }
         },
 
-        async login(email, password){
-            await firebase.auth().signInWithEmailAndPassword(email, password)
-        },
-
-        async logout({commit}){
-            await firebase.auth().signOut()
-            await commit('SET_USER', null)
+        async login({dispatch, commit}, {email, password}){
+            const result = await firebase.auth().signInWithEmailAndPassword(email, password)
+            const uid = await dispatch('getUid')
+            console.log('LOGINED: ', result, uid)
+            //взять компанию из фаербэйза
+            commit(SET_USER, {
+                uid  : uid,
+                email: email,
+                companyName: 'emptyCN',
+                companyInn: 'emptyInn'
+            })
         },
 
         async register({dispatch, commit}, {email, password, companyName, companyInn}){
             const result = await firebase.auth().createUserWithEmailAndPassword(email, password)
             const uid = await dispatch('getUid')
-            console.log('REGISTER:', result, uid)
-            commit('SET_USER', {
+            const company = await firebase.database().ref('companies').push({companyName, companyInn, uid})
+            console.log('REGISTER:', result, uid, 'Company:', company)
+            commit(SET_USER, {
+                uid  : uid,
+                email: email,
+                companyName,
+                companyInn
+            })
+            commit(SET_COMPANY, {
                 uid  : uid,
                 email: email,
                 companyName,
@@ -44,11 +56,30 @@ export default {
             // })
         },
 
+        async logout({commit}){
+            await firebase.auth().signOut()
+            await commit(SET_USER, null)
+        },
+
         getUid(){
             const user = firebase.auth().currentUser
             return user ? user.uid : null
         }
         
 
+    },//actions
+    state: {
+        user: null
+    },
+    mutations: {
+        
+        [SET_USER](state, userData){
+            state.user = userData
+          }
+    },
+    getters: {
+        isAuthenticated(state) {
+          return !!state.user //&& state.company
+        }
     }
 }

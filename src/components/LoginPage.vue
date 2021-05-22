@@ -69,8 +69,8 @@ export default {
     data: () => ({
         email      : 'deepgmc_job@mail.ru',
         password   : '123456qwe',
-        companyName: 'Sorera',
-        companyInn : '1234567890'
+        companyName: 'Sorera',//'',//
+        companyInn : '1234567890'//'',//
     }),
 
     validations: {
@@ -112,6 +112,7 @@ export default {
             //Логиним или регаем юзера.
             //Если данные компании заполнены, то это регистрация, иначе это логин
             const operation = (!!this.companyInn.trim() && !!this.companyName.trim() ? 'register' : 'login')
+            
             console.log('Login|register operation:', operation)
 
             try{
