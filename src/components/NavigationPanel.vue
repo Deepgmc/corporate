@@ -5,6 +5,7 @@
             active-class="border"
             color="indigo"
         >
+            <v-subheader>ОБЩЕЕ</v-subheader>
             <v-list-item>
                 <v-list-item-content>
                     <router-link class="nav_link" to="/home"><v-list-item-title v-text="'Главная'"></v-list-item-title></router-link>
