@@ -35,7 +35,6 @@
       </template>
     </v-snackbar>
 
-
   </v-app>
 </template>
 <script>
@@ -44,45 +43,44 @@ import NavigationPanel from '@/components/NavigationPanel'
 import LoginPage from '@/components/LoginPage'
 
 export default {
-  data: () => ({
-    loading        : true,
-    snackbar       : false,
-    snackbarText   : 'Sample text',
-    snackbarTimeout: 7000,
-  }),
+    data: () => ({
+        loading        : true,
+        snackbar       : false,
+        snackbarText   : 'Sample text',
+        snackbarTimeout: 7000,
+    }),
 
-  provide() {
-      return {
-          showSnackbar: this.showSnackbar,
-      }
-  },
-
-  mounted() {
-    this.$store.dispatch('loadAuthenticate');
-  },
-
-  methods: {
-    showSnackbar(snackbarText){
-      this.snackbarText = snackbarText
-      this.snackbar = true
+    provide() {
+        return {
+            showSnackbar: this.showSnackbar,
+        }
     },
-    async handleLogoutSubmit() {
-      this.$store.dispatch('logout')
-    }
-  },
 
-  computed: {
-    isAuthenticated() {
-      return !!this.$store.getters.isAuthenticated
+    mounted() {
+        this.$store.dispatch('loadAuthenticate')
     },
-  },
 
-  components: {
-    NavigationPanel,
-    LoginPage,
-  },
+    methods: {
+        showSnackbar(snackbarText){
+            this.snackbarText = snackbarText
+            this.snackbar = true
+        },
+        async handleLogoutSubmit() {
+            this.$store.dispatch('logout')
+        }
+    },
 
-  
+    computed: {
+        isAuthenticated() {
+            return !!this.$store.getters.isAuthenticated
+        }
+    },
+
+    components: {
+        NavigationPanel,
+        LoginPage,
+    },
+
 }
 </script>
 

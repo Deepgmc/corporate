@@ -1,5 +1,5 @@
 import firebase from 'firebase/app'
-import {SET_USER} from '../actions.js'
+import {SET_USER, SET_COMPANY} from '../actions.js'
 
 export default {
     actions: {
@@ -8,8 +8,10 @@ export default {
             const user = firebase.auth().currentUser
             if(user && user.uid){
                 commit(SET_USER, {
-                    uid  : user.uid,
-                    email: user.email
+                    uid        : user.uid,
+                    email      : user.email,
+                    companyName: user.companyName,
+                    companyInn : user.companyInn
                 })
             } else {
                 dispatch('logout')
@@ -20,7 +22,9 @@ export default {
             const result = await firebase.auth().signInWithEmailAndPassword(email, password)
             const uid = await dispatch('getUid')
             console.log('LOGINED: ', result, uid)
-            //взять компанию из фаербэйза
+
+            //TODO взять компанию из фаербэйза для текущего юзера
+
             commit(SET_USER, {
                 uid  : uid,
                 email: email,
@@ -30,10 +34,12 @@ export default {
         },
 
         async register({dispatch, commit}, {email, password, companyName, companyInn}){
+            console.log('REGISTER ACTION, AUTH MODULE');
             const result = await firebase.auth().createUserWithEmailAndPassword(email, password)
             const uid = await dispatch('getUid')
-            const company = await firebase.database().ref('companies').push({companyName, companyInn, uid})
-            console.log('REGISTER:', result, uid, 'Company:', company)
+            console.log('Registered UID: ', uid)
+            const company = await firebase.database().ref(`/companies`).push({companyName, companyInn, uid})
+            console.log('REGISTER, GOT COMPANY:', result, uid, 'Company:', company)
             commit(SET_USER, {
                 uid  : uid,
                 email: email,
@@ -47,13 +53,6 @@ export default {
                 companyInn
             })
             
-            // const newCompany = await firebase.database().ref(`/company`).push({companyName, companyInn})
-            // console.log('after push company');
-            // const company = {...newCompany, id}
-            // console.log('New company', company);
-            // await firebase.database().ref(`/users/${uid}/info`).set({
-            //     companyID: cid
-            // })
         },
 
         async logout({commit}){
@@ -68,18 +67,23 @@ export default {
         
 
     },//actions
+
     state: {
         user: null
     },
+
     mutations: {
-        
         [SET_USER](state, userData){
             state.user = userData
-          }
+        }
     },
+
     getters: {
         isAuthenticated(state) {
-          return !!state.user //&& state.company
+            return !!state.user //&& state.company
+        },
+        user(state){
+            return state.user
         }
     }
 }

@@ -5,7 +5,7 @@
             active-class="border"
             color="indigo"
         >
-            <v-subheader>ОБЩЕЕ</v-subheader>
+            <v-subheader>ОБЩЕЕ {{email}}</v-subheader>
             <v-list-item>
                 <v-list-item-content>
                     <router-link class="nav_link" to="/home"><v-list-item-title v-text="'Главная'"></v-list-item-title></router-link>
@@ -45,7 +45,23 @@
 
 <script>
 export default {
-    name: 'NavigationPanel'
+    name: 'NavigationPanel',
+    
+    // data: () => {
+    //     return {
+    //         name: 'empty'
+    //     }
+    // },
+
+    // mounted(){
+    //     if(this.$store.getters.user) this.name = this.$store.getters.user.email
+    // }
+
+    computed: {
+        email() {
+            return this.$store.getters.user.email
+        }
+    },
 }
 </script>
 
