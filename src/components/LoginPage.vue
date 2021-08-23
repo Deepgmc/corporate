@@ -113,7 +113,7 @@ export default {
             //Если данные компании заполнены, то это регистрация, иначе это логин
             const operation = (!!this.companyInn.trim() && !!this.companyName.trim() ? 'register' : 'login')
             
-            console.log('Login|register operation:', operation)
+            console.log('Requested operation:', operation)
 
             try{
               await this.$store.dispatch(operation, {
@@ -126,7 +126,6 @@ export default {
               //ошибки логина вываливаем в корневой компонент
               this.showSnackbar(e.message)
             }
-            //await this.$router.push('/')
         }
     }//methods end
 }
