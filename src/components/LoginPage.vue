@@ -116,7 +116,7 @@ export default {
             console.log('Requested operation:', operation)
 
             try{
-              await this.$store.dispatch(operation, {
+              await this.$store.dispatch('auth/' + operation, {
                   email      : this.email,
                   password   : this.password,
                   companyName: this.companyName,

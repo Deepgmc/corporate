@@ -57,7 +57,7 @@ export default {
     },
 
     mounted() {
-        this.$store.dispatch('loadAuthenticate')
+        this.$store.dispatch('auth/loadAuthenticate')
     },
 
     methods: {
@@ -66,13 +66,13 @@ export default {
             this.snackbar = true
         },
         async handleLogoutSubmit() {
-            this.$store.dispatch('logout')
+            this.$store.dispatch('auth/logout')
         }
     },
 
     computed: {
         isAuthenticated() {
-            return !!this.$store.getters.isAuthenticated
+            return !!this.$store.getters['auth/isAuthenticated']
         }
     },
 
