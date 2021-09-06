@@ -17,13 +17,13 @@ const actions = {
                 companyInn : user.companyInn
             })
         } else {
-            dispatch('auth/logout')
+            dispatch('logout')
         }
     },
 
     async login({dispatch, commit}, {email, password}){
         const result = await firebase.auth().signInWithEmailAndPassword(email, password)
-        const uid = await dispatch('auth/getUid')
+        const uid = await dispatch('getUid')
         console.log('LOGINED: ', result, uid)
 
         //TODO взять компанию из фаербэйза для текущего юзера
@@ -39,7 +39,7 @@ const actions = {
     async register({dispatch, commit}, {email, password, companyName, companyInn}){
         console.log('REGISTER ACTION, AUTH MODULE');
         const result = await firebase.auth().createUserWithEmailAndPassword(email, password)
-        const uid = await dispatch('auth getUid')
+        const uid = await dispatch('getUid')
         console.log('Registered UID: ', uid)
         const company = await firebase.database().ref(`/companies`).push({companyName, companyInn, uid})
         console.log('REGISTER, GOT COMPANY:', result, uid, 'Company:', company)
@@ -49,12 +49,6 @@ const actions = {
             companyName,
             companyInn
         })
-        // commit(SET_COMPANY, {
-        //     uid  : uid,
-        //     email: email,
-        //     companyName,
-        //     companyInn
-        // })
         
     },
 
@@ -64,6 +58,7 @@ const actions = {
     },
 
     getUid(){
+        console.log('getUid');
         const user = firebase.auth().currentUser
         return user ? user.uid : null
     }
