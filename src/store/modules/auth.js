@@ -26,7 +26,7 @@ const actions = {
         const uid = await dispatch('getUid')
         console.log('LOGINED: ', result, uid)
 
-        //TODO взять компанию из фаербэйза для текущего юзера
+        //! TODO взять компанию из фаербэйза для текущего юзера и присоединить её к самому юзеру
 
         commit(SET_USER, {
             uid  : uid,
@@ -37,6 +37,9 @@ const actions = {
     },
 
     async register({dispatch, commit}, {email, password, companyName, companyInn}){
+
+        //! TODO после логина - не обновляется страница
+
         console.log('REGISTER ACTION, AUTH MODULE');
         const result = await firebase.auth().createUserWithEmailAndPassword(email, password)
         const uid = await dispatch('getUid')
